@@ -81,8 +81,9 @@ if ( !function_exists('dump_json') )
 		else
 		{ $type = $typehint; }
 		
-		$r0 = ( ('array' == $type) ? '[' : '{' );   // $r0 = "${r0} /* ${debug} */ ";
-		$r9 = ( ('array' == $type) ? ']' : '}' );
+		// $r0 = ( ('array' == $type) ? '[' : '{' );   // $r0 = "${r0} /* ${debug} */ ";
+		// $r9 = ( ('array' == $type) ? ']' : '}' );
+		list($r0, $r9) = ('array' == $type) ? array('[', ']') : ( ('raw' == $type) ? array('', '') : array('{', '}') );
 		
 		if(!empty($jsonp_callback))
 		{
@@ -102,6 +103,11 @@ if ( !function_exists('dump_json') )
 					dump_json($v, true);
 					$c = ',';
 				}
+			}
+			elseif('raw' == $type)
+			{
+				$v = $obj['raw'];
+				echo (empty($v) ? 'null' : $v);
 			}
 			else
 			{
@@ -124,6 +130,11 @@ if ( !function_exists('dump_json') )
 				foreach($obj as $v) {
 					$compact[] = dump_json($v, false);
 				}
+			}
+			elseif('raw' == $type)
+			{
+				$v = $obj['raw'];
+				return empty($v) ? 'null' : $v;
 			}
 			else
 			{
