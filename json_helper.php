@@ -16,11 +16,6 @@
  */
 if ( !function_exists('dump_json') )
 {
-	function __dump_json_string($s)
-	{
-		
-	}
-	
 	function dump_json($obj, $to_stdout=false, $sendheader=false, $jsonp_callback=null)
 	{
 		if($to_stdout && $sendheader)
@@ -34,7 +29,7 @@ if ( !function_exists('dump_json') )
 		if(!is_array($obj))
 		{
 			$result = null;
-			
+
 			if(is_int($obj) || is_float($obj))
 			{ $result = $obj; }
 			elseif(is_bool($obj))
@@ -45,23 +40,23 @@ if ( !function_exists('dump_json') )
 			{ return dump_json($obj, $to_stdout); } */
 			else
 			{ $result = '"'.addcslashes($obj, "\\\'\"&\n\r<>").'"'; }
-			
+
 			if(!empty($jsonp_callback))
 			{ $result = $jsonp_callback.'('.$result.');'; }
-			
+
 			if($to_stdout)
 			{ echo $result; return null; }
-			
+
 			return $result;
 		}
-		
+
 		$typehint = null;
 		if(isset($obj['__json-type-hint']))
 		{
 			$typehint = $obj['__json-type-hint'];
 			unset($obj['__json-type-hint']);
 		}
-		
+
 		$type = null;
 		if(empty($typehint))
 		{
@@ -70,7 +65,7 @@ if ( !function_exists('dump_json') )
 			$keys = array_keys($obj);
 			foreach($keys as $k) {
 				$kv = intval($k);
-				
+
 				if( ("${kv}" != $k) || ($kv >= $b) )
 				{
 					$type = 'dict';
@@ -80,21 +75,21 @@ if ( !function_exists('dump_json') )
 		}
 		else
 		{ $type = $typehint; }
-		
+
 		// $r0 = ( ('array' == $type) ? '[' : '{' );   // $r0 = "${r0} /* ${debug} */ ";
 		// $r9 = ( ('array' == $type) ? ']' : '}' );
 		list($r0, $r9) = ('array' == $type) ? array('[', ']') : ( ('raw' == $type) ? array('', '') : array('{', '}') );
-		
+
 		if(!empty($jsonp_callback))
 		{
 			$r0 = $jsonp_callback.'('.$r0;
 			$r9 = $r9.');';
 		}
-		
+
 		if($to_stdout)
 		{
 			echo $r0;
-			
+
 			$c = '';
 			if('array' == $type)
 			{
@@ -117,9 +112,9 @@ if ( !function_exists('dump_json') )
 					$c = ',';
 				}
 			}
-			
+
 			echo $r9;
-			
+
 			return null;
 		}
 		else
@@ -142,7 +137,7 @@ if ( !function_exists('dump_json') )
 					$compact[] = '"'.addslashes($k).'":'.dump_json($v, false);
 				}
 			}
-			
+
 			return $r0.implode(',', $compact).$r9;
 		}
 	}
@@ -151,4 +146,3 @@ if ( !function_exists('dump_json') )
 
 
 // vim: ts=4 sw=4 ai nowrap
-?>
