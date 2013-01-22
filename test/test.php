@@ -8,7 +8,7 @@ require_once('../json_helper.php');
 
 if('special-char' == $unit)
 {
-	$d = array('str1' => "abc", 'str2' => "\\\'\"&\n\r<>", 'str3' => "\ta\nb");
+	$d = array('str1' => "abc", 'str2' => "\\'\"&\n\r<>\t", 'str3' => "\ta\nb");
 	dump_json($d, true, true);
 }
 
