@@ -39,7 +39,7 @@ if ( !function_exists('dump_json') )
 			/* elseif(is_array($obj))   // no need to have this, just for reference
 			{ return dump_json($obj, $to_stdout); } */
 			else
-			{ $result = '"'.addcslashes($obj, "\\\'\"&\n\r<>").'"'; }
+			{ $result = '"'.addcslashes($obj, "\\\"\n\r\t").'"'; }
 
 			if(!empty($jsonp_callback))
 			{ $result = $jsonp_callback.'('.$result.');'; }
